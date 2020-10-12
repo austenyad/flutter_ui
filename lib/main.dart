@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ui/rutes.dart';
+import 'package:flutter_ui/base_widgets/container_widget.dart';
+import 'package:flutter_ui/webview_page.dart';
+import 'package:flutter_ui/widgets.dart';
 
 void main() {
   runApp(MyApp());
@@ -78,46 +80,115 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Row(
-        // Column is also a layout widget. It takes a list of children and
-        // arranges them vertically. By default, it sizes itself to fit its
-        // children horizontally, and tries to be as tall as its parent.
-        //
-        // Invoke "debug painting" (press "p" in the console, choose the
-        // "Toggle Debug Paint" action from the Flutter Inspector in Android
-        // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-        // to see the wireframe for each widget.
-        //
-        // Column has various properties to control how it sizes itself and
-        // how it positions its children. Here we use mainAxisAlignment to
-        // center the children vertically; the main axis here is the vertical
-        // axis because Columns are vertical (the cross axis would be
-        // horizontal).
+      body: SingleChildScrollView(
+        child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
 
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RawMaterialButton(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              fillColor: Colors.blue,
-              textStyle: TextStyle(color: Colors.white),
-              child: Text('State 生命周期'),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LifeCycleFlutterStateWidget();
-                }));
-              },
+          children: <Widget>[
+            ItemCardWidget(
+              widgetCategoryName: '基础组件',
+              categoryDescriptor: '在构建您的第一个Flutter应用程序之前，您绝对需要了解这些widget。',
+
             ),
-          ),
-        ],
+            ItemCardWidget(
+              widgetCategoryName: 'Material Components',
+              categoryDescriptor:
+                  '实现了Material Design 指南的视觉、效果、motion-rich的widget。',
+            ),
+            ItemCardWidget(
+              widgetCategoryName: 'Cupertino(iOS风格的widget)',
+              categoryDescriptor: '用于当前iOS设计语言的美丽和高保真widget',
+            ),
+            ItemCardWidget(
+              widgetCategoryName: 'Layout',
+              categoryDescriptor: '排列其它widget的columns、rows、grids和其它的layouts。',
+            ),
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class ItemCardWidget extends StatelessWidget {
+  const ItemCardWidget({
+    this.widgetCategoryName,
+    this.categoryDescriptor,
+    this.onStart,
+    Key key,
+  }) : super(key: key);
+
+  final String widgetCategoryName;
+  final String categoryDescriptor;
+  final Function onStart;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return IndexWidgets();
+          }));
+        },
+        child: Container(
+          width: 300.0,
+          height: 120.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, top: 10.0),
+                child: Text(
+                  widgetCategoryName,
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  categoryDescriptor,
+                  style: TextStyle(fontSize: 14.0),
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return IndexWidgets();
+                    }));
+                  },
+                  child: Text(
+                    '文档',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
